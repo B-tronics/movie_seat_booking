@@ -7,10 +7,11 @@ const total = document.getElementById("total");
 const movieSelect = document.getElementById("movie");
 
 populateUI();
-// Initial count and total set
-updateSelectedCountAndTotal();
 
 let ticketPrice = +movieSelect.value;
+
+// Initial count and total set
+updateSelectedCountAndTotal();
 
 // Update total and count
 function updateSelectedCountAndTotal() {
