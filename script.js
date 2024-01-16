@@ -1,39 +1,37 @@
 "use strict";
 
-const movieSeats = document.querySelectorAll(".seat");
+const container = document.querySelector(".container");
+const seats = document.querySelectorAll(".row .seat:not(.occupied");
 const count = document.getElementById("count");
 const total = document.getElementById("total");
-let movieList = document.getElementById("movie");
+const movieSelect = document.getElementById("movie");
 
-let selectedNumberOfSeat = 0;
+let ticketPrice = +movieSelect.value;
 
-// Update screen
-const updateScreen = function () {
-  displayPrice();
-};
-
-// Display price
-const displayPrice = function () {
-  updateAmount();
-  const pricePerTicket = movieList.selectedOptions[0].value;
-  total.textContent = pricePerTicket * selectedNumberOfSeat;
-};
-
-const updateAmount = function () {
-  count.textContent = selectedNumberOfSeat;
-};
-
-// Select seats
-const selectSeat = function (e) {
-  if (e.target.classList.contains("selected")) {
-    e.target.classList.remove("selected");
-    selectedNumberOfSeat -= 1;
-  } else {
-    e.target.classList.add("selected");
-    selectedNumberOfSeat += 1;
-  }
-  updateScreen();
-};
+// Update total and count
+function updateSelectedCount() {
+  const selectedSeats = document.querySelectorAll(".row .seat.selected");
+  const selectedSeatsCount = selectedSeats.length;
+  count.innerText = selectedSeatsCount;
+  total.innerText = selectedSeatsCount * ticketPrice;
+}
 
 // Event listeners
-movieSeats.forEach((seat) => seat.addEventListener("click", selectSeat));
+
+// Movie select event
+movieSelect.addEventListener("change", (e) => {
+  ticketPrice = +e.target.value;
+  updateSelectedCount();
+});
+
+// Seat click event
+container.addEventListener("click", (e) => {
+  if (
+    e.target.classList.contains("seat") &&
+    !e.target.classList.contains("occupied")
+  ) {
+    e.target.classList.toggle("selected");
+
+    updateSelectedCount();
+  }
+});
